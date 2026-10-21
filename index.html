@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>موجة البرمجة | منظومة قطع الغيار</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">م</div><div><strong>موجة البرمجة</strong><small>لإدارة قطع الغيار</small></div></div>
+    <div class="store-chip"><span class="pulse"></span> النظام يعمل دون إنترنت</div>
+    <nav id="navigation">
+      <button class="nav-item active" data-page="dashboard"><span>◫</span> لوحة التحكم</button>
+      <button class="nav-item" data-page="products"><span>▦</span> الأصناف والمخزون</button>
+      <button class="nav-item" data-page="sales"><span>▤</span> فواتير المبيعات</button>
+      <button class="nav-item" data-page="customers"><span>♙</span> الزبائن</button>
+      <button class="nav-item" data-page="expenses"><span>↗</span> المصروفات</button>
+      <button class="nav-item" data-page="reports"><span>▥</span> التقارير</button>
+      <button class="nav-item" data-page="settings"><span>⚙</span> النسخ الاحتياطي</button>
+    </nav>
+    <div class="sidebar-bottom"><div class="avatar">م ب</div><div><strong>مدير المنظومة</strong><small>صلاحية محلية</small></div><span class="online-dot"></span></div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><div><div class="eyebrow">منظومة إدارة الأعمال</div><h1 id="page-title">لوحة التحكم</h1></div><div class="top-actions"><div class="date-pill" id="today-label">—</div><button class="icon-button" id="quick-backup" title="نسخة احتياطية">⇩</button></div></header>
+    <section id="page-content" class="page-content"></section>
+    <footer>© <span id="year"></span> موجة البرمجة — منظومة محلية لإدارة قطع الغيار</footer>
+  </main>
+</div>
+<div id="toast" class="toast"></div>
+<dialog id="product-dialog" class="modal">
+  <form id="product-form" method="dialog">
+    <div class="modal-head"><div><span class="eyebrow">المخزون</span><h2 id="product-modal-title">إضافة صنف جديد</h2></div><button type="button" class="close-btn" data-close="product-dialog">×</button></div>
+    <input type="hidden" name="id">
+    <div class="form-grid">
+      <label class="wide">اسم الصنف *<input name="name" required placeholder="مثال: فلتر زيت"></label>
+      <label>الباركود<input name="barcode" placeholder="امسح أو اكتب الباركود"></label>
+      <label>التصنيف<input name="category" placeholder="فلاتر، زيوت..."></label>
+      <label>نوع المركبة<select name="vehicle_type"><option>سيارات وشاحنات</option><option>سيارات</option><option>شاحنات</option><option>معدات ثقيلة</option></select></label>
+      <label>الماركة<input name="brand" placeholder="اسم الماركة"></label>
+      <label>سعر الشراء<input name="buy_price" type="number" min="0" step=".01" value="0"></label>
+      <label>سعر البيع<input name="sell_price" type="number" min="0" step=".01" value="0"></label>
+      <label>الكمية الحالية<input name="quantity" type="number" min="0" step="1" value="0"></label>
+      <label>حد التنبيه<input name="min_quantity" type="number" min="0" step="1" value="0"></label>
+      <label class="wide">مكان التخزين<input name="location" placeholder="مثال: رف A-01"></label>
+    </div>
+    <div class="modal-actions"><button type="button" class="btn btn-light" data-close="product-dialog">إلغاء</button><button class="btn btn-primary" type="submit">حفظ الصنف</button></div>
+  </form>
+</dialog>
+<dialog id="customer-dialog" class="modal">
+  <form id="customer-form" method="dialog">
+    <div class="modal-head"><div><span class="eyebrow">قاعدة بيانات الزبائن</span><h2>إضافة زبون</h2></div><button type="button" class="close-btn" data-close="customer-dialog">×</button></div>
+    <div class="form-grid"><label class="wide">اسم الزبون *<input name="name" required></label><label>رقم الهاتف<input name="phone" type="tel"></label><label>العنوان<input name="address"></label></div>
+    <div class="modal-actions"><button type="button" class="btn btn-light" data-close="customer-dialog">إلغاء</button><button class="btn btn-primary">حفظ الزبون</button></div>
+  </form>
+</dialog>
+<dialog id="sale-dialog" class="modal modal-large">
+  <form id="sale-form" method="dialog">
+    <div class="modal-head"><div><span class="eyebrow">عملية بيع جديدة</span><h2>إنشاء فاتورة</h2></div><button type="button" class="close-btn" data-close="sale-dialog">×</button></div>
+    <div class="form-grid">
+      <label>اسم الزبون<input name="customer_name" placeholder="زبون نقدي"></label>
+      <label>رقم الهاتف<input name="customer_phone" type="tel"></label>
+      <label>نوع البيع<select name="sale_type"><option value="نقدي">نقدي</option><option value="آجل">آجل</option><option value="جزئي">دفع جزئي</option></select></label>
+      <label>طريقة الدفع<select name="payment_method"><option>نقدي</option><option>ادفع لي</option><option>موبي كاش</option><option>تحويل مصرفي</option><option>وان باي</option><option>آجل</option><option>أخرى</option></select></label>
+    </div>
+    <div class="sale-add-row"><label class="grow">الصنف<select id="sale-product-select"></select></label><label class="qty-field">الكمية<input id="sale-qty" type="number" min="1" value="1"></label><button type="button" class="btn btn-dark" id="add-sale-item">+ إضافة للفاتورة</button></div>
+    <div class="table-wrap compact"><table><thead><tr><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th><th></th></tr></thead><tbody id="sale-items-body"><tr><td colspan="5" class="empty-cell">أضف أصناف الفاتورة</td></tr></tbody></table></div>
+    <div class="sale-bottom"><label>المبلغ المدفوع<input name="paid" type="number" min="0" step=".01" value="0"></label><label class="grow">ملاحظات<input name="note"></label><div class="sale-total">الإجمالي<strong id="sale-total">0.00 د.ل</strong></div></div>
+    <div class="modal-actions"><button type="button" class="btn btn-light" data-close="sale-dialog">إلغاء</button><button class="btn btn-primary">حفظ وإتمام الفاتورة</button></div>
+  </form>
+</dialog>
+<script src="app.js"></script>
+</body>
+</html>
